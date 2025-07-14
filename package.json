@@ -1,6 +1,6 @@
 {
   "name": "@khazh/tic-tac-toe-react",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "A customizable Tic Tac Toe game component for React with AI opponent, configurable board size, and win conditions",
   "type": "module",
   "main": "dist/index.js",
