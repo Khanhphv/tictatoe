@@ -1,5 +1,5 @@
 {
-  "name": "@khanhpham/tic-tac-toe-react",
+  "name": "@khazh/tic-tac-toe-react",
   "version": "1.0.0",
   "description": "A customizable Tic Tac Toe game component for React with AI opponent, configurable board size, and win conditions",
   "type": "module",
@@ -15,8 +15,9 @@
     "build:lib": "tsc -p tsconfig.lib.json",
     "lint": "eslint .",
     "preview": "vite preview",
-    "prepublishOnly": "yarn build:lib"
+    "prepublishOnly": "npm run build:lib"
   },
+  "publishConfig": { "access": "public" },
   "keywords": [
     "react",
     "tic-tac-toe",
