@@ -1,5 +1,5 @@
 import { useState } from "react";
-import type { Player, Board, GameState, GameConfig } from "../types/game";
+import type { Player, Board, GameState } from "../types/game";
 import {
   getInitialBoard,
   checkWinner,

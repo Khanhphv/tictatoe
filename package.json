@@ -1,17 +1,40 @@
 {
-  "name": "tic-tac-toe",
-  "private": true,
-  "version": "0.0.0",
+  "name": "@khanhpham/tic-tac-toe-react",
+  "version": "1.0.0",
+  "description": "A customizable Tic Tac Toe game component for React with AI opponent, configurable board size, and win conditions",
   "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist",
+    "README.md"
+  ],
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
+    "build:lib": "tsc -p tsconfig.lib.json",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "prepublishOnly": "yarn build:lib"
   },
-  "dependencies": {
-    "react": "^19.1.0",
-    "react-dom": "^19.1.0"
+  "keywords": [
+    "react",
+    "tic-tac-toe",
+    "game",
+    "component",
+    "ai",
+    "typescript",
+    "board-game"
+  ],
+  "author": "Khanh Pham",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/khanhpham/tic-tac-toe-react.git"
+  },
+  "peerDependencies": {
+    "react": ">=16.8.0",
+    "react-dom": ">=16.8.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.30.1",

@@ -1,69 +1,202 @@
-# React + TypeScript + Vite
+# Tic Tac Toe React Component
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A customizable Tic Tac Toe game component for React with AI opponent, configurable board size, and flexible win conditions.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- 🎮 **Customizable Board Size**: Play on boards from 3x3 to any size
+- 🎯 **Flexible Win Conditions**: Configure how many in a row to win
+- 🤖 **AI Opponent**: Built-in AI with smart move selection
+- 🎨 **Customizable Styling**: Pass custom CSS classes and styles
+- 📱 **Responsive Design**: Adapts to different screen sizes
+- 🏆 **Score Tracking**: Keep track of wins, losses, and draws
+- 🔄 **Game History**: Undo/redo functionality
+- 📦 **TypeScript Support**: Full type definitions included
 
-## Expanding the ESLint configuration
+## Installation
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default tseslint.config([
-  globalIgnores(["dist"]),
-  {
-    files: ["**/*.{ts,tsx}"],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      ...tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      ...tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      ...tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ["./tsconfig.node.json", "./tsconfig.app.json"],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-]);
+```bash
+yarn add @khanhpham/tic-tac-toe-react
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+or
 
-```js
-// eslint.config.js
-import reactX from "eslint-plugin-react-x";
-import reactDom from "eslint-plugin-react-dom";
-
-export default tseslint.config([
-  globalIgnores(["dist"]),
-  {
-    files: ["**/*.{ts,tsx}"],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs["recommended-typescript"],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ["./tsconfig.node.json", "./tsconfig.app.json"],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-]);
+```bash
+npm install @khanhpham/tic-tac-toe-react
 ```
+
+## Quick Start
+
+```tsx
+import React from 'react';
+import { TicTacToe } from '@khanhpham/tic-tac-toe-react';
+
+function App() {
+  return (
+    <div>
+      <h1>My Tic Tac Toe Game</h1>
+      <TicTacToe />
+    </div>
+  );
+}
+```
+
+## Basic Usage
+
+### Default Game (3x3 board, 3 in a row to win)
+
+```tsx
+import { TicTacToe } from '@khanhpham/tic-tac-toe-react';
+
+<TicTacToe />
+```
+
+### Custom Board Size and Win Condition
+
+```tsx
+<TicTacToe 
+  initialBoardSize={5} 
+  initialWinLength={4} 
+/>
+```
+
+### Custom Styling
+
+```tsx
+<TicTacToe 
+  className="my-custom-game"
+  style={{ 
+    backgroundColor: '#f0f0f0',
+    borderRadius: '10px',
+    padding: '20px'
+  }}
+/>
+```
+
+### Handle Winner Events
+
+```tsx
+<TicTacToe 
+  onWinner={() => {
+    console.log('Player X won!');
+    // Add your custom logic here
+  }}
+/>
+```
+
+### Hide Configuration Controls
+
+```tsx
+<TicTacToe 
+  showConfigControls={false}
+/>
+```
+
+## Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `initialBoardSize` | `number` | `10` | Initial size of the game board |
+| `initialWinLength` | `number` | `4` | Number of marks in a row needed to win |
+| `showConfigControls` | `boolean` | `true` | Whether to show configuration controls |
+| `className` | `string` | `""` | Additional CSS class name |
+| `style` | `React.CSSProperties` | `{}` | Additional inline styles |
+| `onWinner` | `() => void` | `() => {}` | Callback when a player wins |
+
+## Advanced Usage
+
+### Using Individual Hooks
+
+```tsx
+import { 
+  useGameState, 
+  useScore, 
+  useAI, 
+  useGameMode,
+  useBoardSize,
+  useWinLength 
+} from '@khanhpham/tic-tac-toe-react';
+
+function CustomGame() {
+  const { boardSize } = useBoardSize(5);
+  const { winLength } = useWinLength(5, 4);
+  const { gameMode } = useGameMode();
+  const { gameState, makeMove, resetGame } = useGameState(boardSize, winLength);
+  const { updateScore, getTotalGames } = useScore();
+
+  // Your custom game logic here
+  return (
+    <div>
+      {/* Custom game UI */}
+    </div>
+  );
+}
+```
+
+### Using Types
+
+```tsx
+import type { 
+  Player, 
+  GameMode, 
+  Board, 
+  GameConfig, 
+  GameState, 
+  Score 
+} from '@khanhpham/tic-tac-toe-react';
+
+// Use types in your custom components
+```
+
+## Game Modes
+
+- **Player vs Player**: Two human players take turns
+- **Player vs AI**: Human player (X) vs AI opponent (O)
+
+## AI Features
+
+The AI opponent uses a smart algorithm to:
+- Block winning moves
+- Create winning opportunities
+- Play strategically based on board position
+- Adapt to different board sizes and win conditions
+
+## Styling
+
+The component is fully customizable through:
+- CSS classes via `className` prop
+- Inline styles via `style` prop
+- Responsive design that adapts to board size
+
+## Browser Support
+
+- React 16.8+ (for hooks support)
+- Modern browsers with ES2020 support
+- TypeScript 4.0+
+
+## Development
+
+```bash
+# Install dependencies
+yarn install
+
+# Start development server
+yarn dev
+
+# Build for production
+yarn build
+
+# Build library for npm
+yarn build:lib
+
+# Lint code
+yarn lint
+```
+
+## License
+
+MIT
+
+## Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
