@@ -71,7 +71,25 @@ const TicTacToe: React.FC<TicTacToeProps> = ({
   };
 
   const getCellSize = () => {
-    // Responsive cell sizing based on board size
+    // Responsive cell sizing based on board size and screen width
+    const isMobile = window.innerWidth <= 768;
+    const isSmallMobile = window.innerWidth <= 480;
+
+    if (isSmallMobile) {
+      if (boardSize <= 4) return 60;
+      if (boardSize <= 6) return 45;
+      if (boardSize <= 8) return 35;
+      return 28;
+    }
+
+    if (isMobile) {
+      if (boardSize <= 4) return 70;
+      if (boardSize <= 6) return 55;
+      if (boardSize <= 8) return 45;
+      return 35;
+    }
+
+    // Desktop
     if (boardSize <= 4) return 80;
     if (boardSize <= 6) return 60;
     if (boardSize <= 8) return 50;
@@ -79,18 +97,23 @@ const TicTacToe: React.FC<TicTacToeProps> = ({
   };
 
   const cellSize = getCellSize();
-  const fontSize = Math.max(1.5, 3 - (boardSize - 3) * 0.3);
+  const fontSize = Math.max(1.2, 2.5 - (boardSize - 3) * 0.2);
 
   return (
     <div
       className={`tic-tac-toe-container ${className}`}
       style={{
         textAlign: "center",
-        marginTop: "2rem",
         fontFamily: "Arial, sans-serif",
-        maxWidth: "800px",
-        margin: "2rem auto",
-        padding: "0 1rem",
+        maxWidth: "100vw",
+        width: "100%",
+        margin: "0 auto",
+        padding: "1rem",
+        boxSizing: "border-box",
+        minHeight: "100vh",
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
         ...style,
       }}
     >
@@ -98,8 +121,9 @@ const TicTacToe: React.FC<TicTacToeProps> = ({
         style={{
           color: "#333",
           marginBottom: "1rem",
-          fontSize: "2.5rem",
+          fontSize: "clamp(1.5rem, 5vw, 2.5rem)",
           fontWeight: "bold",
+          lineHeight: 1.2,
         }}
       >
         Tic Tac Toe
@@ -107,15 +131,16 @@ const TicTacToe: React.FC<TicTacToeProps> = ({
 
       {/* Game Configuration - Only show if showConfigControls is true */}
       {showConfigControls && (
-        <div style={{ marginBottom: "1.5rem" }}>
+        <div style={{ marginBottom: "1rem" }}>
           {/* Win Condition Highlight */}
           <div
             style={{
               background: "#e7f3ff",
-              padding: "0.75rem",
+              padding: "clamp(0.5rem, 2vw, 0.75rem)",
               borderRadius: "0.5rem",
               border: "2px solid #007bff",
               marginTop: "0.5rem",
+              fontSize: "clamp(0.8rem, 2.5vw, 1rem)",
             }}
           >
             <strong style={{ color: "#007bff" }}>
@@ -123,7 +148,7 @@ const TicTacToe: React.FC<TicTacToeProps> = ({
             </strong>
             <div
               style={{
-                fontSize: "0.9rem",
+                fontSize: "clamp(0.7rem, 2vw, 0.9rem)",
                 color: "#666",
                 marginTop: "0.25rem",
               }}
@@ -141,8 +166,8 @@ const TicTacToe: React.FC<TicTacToeProps> = ({
       {/* Game Status */}
       <div
         style={{
-          marginBottom: "1.5rem",
-          padding: "0.5rem",
+          marginBottom: "1rem",
+          padding: "clamp(0.4rem, 2vw, 0.5rem)",
           background: gameState.winner
             ? "#d4edda"
             : gameState.isDraw
@@ -150,7 +175,7 @@ const TicTacToe: React.FC<TicTacToeProps> = ({
               : "#7f8eab",
           borderRadius: "0.5rem",
           fontWeight: "bold",
-          fontSize: "1.1rem",
+          fontSize: "clamp(0.9rem, 2.5vw, 1.1rem)",
         }}
       >
         {getGameStatus()}
@@ -161,11 +186,13 @@ const TicTacToe: React.FC<TicTacToeProps> = ({
         style={{
           display: "inline-block",
           background: "#fff",
-          padding: "1rem",
+          padding: "clamp(0.5rem, 2vw, 1rem)",
           borderRadius: "0.5rem",
           boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
           overflow: "auto",
           maxWidth: "100%",
+          maxHeight: "70vh",
+          margin: "0 auto",
         }}
       >
         {gameState.board.map((row, i) => (
@@ -184,6 +211,11 @@ const TicTacToe: React.FC<TicTacToeProps> = ({
                   color: cell === "X" ? "#dc3545" : "#28a745",
                   minWidth: cellSize,
                   minHeight: cellSize,
+                  padding: 0,
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  touchAction: "manipulation",
                 }}
                 onClick={() => handleClick(i, j)}
                 disabled={!!cell || !!gameState.winner || !!gameState.isDraw}
@@ -196,12 +228,15 @@ const TicTacToe: React.FC<TicTacToeProps> = ({
       </div>
 
       {/* Game Controls */}
-      <div style={{ marginTop: "1.5rem" }}>
+      <div style={{ marginTop: "1rem" }}>
         <Button
           onClick={handleReset}
           style={{
             background: "#dc3545",
             color: "#fff",
+            fontSize: "clamp(0.9rem, 2.5vw, 1rem)",
+            padding: "clamp(0.6rem, 2vw, 0.8rem) clamp(1rem, 3vw, 1.5rem)",
+            minHeight: "44px",
           }}
         >
           New Game
@@ -211,11 +246,11 @@ const TicTacToe: React.FC<TicTacToeProps> = ({
       {/* Game Info */}
       <div
         style={{
-          marginTop: "1.5rem",
-          padding: "1rem",
+          marginTop: "1rem",
+          padding: "clamp(0.5rem, 2vw, 1rem)",
           background: "#f8f9fa",
           borderRadius: "0.5rem",
-          fontSize: "0.9rem",
+          fontSize: "clamp(0.7rem, 2vw, 0.9rem)",
           color: "#6c757d",
         }}
       >
